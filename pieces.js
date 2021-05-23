@@ -1,4 +1,5 @@
 let stopAnimation = false;
+let GlobalPiece = null
 const PiecePatternI =
 [
   [
@@ -28,7 +29,7 @@ const PiecePatternI =
     ]
   ]
   ,
-  ["BLUE"]
+  "blue" 
 
 ]
 
@@ -58,7 +59,7 @@ const PiecePatternL =
   
   ]
   ,
-  ["RED"]
+  "red"
 
 ]
 
@@ -88,8 +89,14 @@ const PiecePatternT =
   
   ]
   ,
-  ["GREEN"]
+  "green" 
+]
 
+const AllPattern =
+[
+  PiecePatternL,
+  PiecePatternI,
+  PiecePatternT
 ]
 
 class Piece
@@ -100,7 +107,7 @@ class Piece
     this.tetrimino = tetriminos;
     this.type = type;
     this.x = 0;
-    this.y = 0;
+    this.y = -1;
     this.locked = false;
     this.dropStart = Date.now();
   }
@@ -125,24 +132,42 @@ class Piece
       for(let c = 0; c < this.tetrimino[0][this.type].length; c++)
       {
           if(this.tetrimino[0][this.type][r][c] == 1)
-            this.board.DrawSqaure(this.x+c, this.y+r, "WHITE"); //x is from left, means it's the column and y is from up means the row
+            this.board.DrawSqaure(this.x+c, this.y+r, "white"); //x is from left, means it's the column and y is from up means the row
       }
     }
   }
   
   MoveDown()
   {
-    if(this.locked)
+    if(stopAnimation)
       return;
+
+    console.log(stopAnimation);
+
     if(this.CollisionDetection(0,1))
     {
+      //Check whether complete object can be presented
+      let objectSize = this.tetrimino[0][this.type][0].length;
+      console.log(objectSize);
+
+      for(let column = 0; column < objectSize; column++)
+      {
+        if(this.board.board[column][objectSize-1] != "white")
+        {
+          stopAnimation = true;
+          return;
+        }
+      }
       this.Lock();
-      return;
+      return true;
     }
-    
-    this.UnDrawPiece();
-    this.y++;
-    this.DrawPiece();
+    else
+    {
+      this.UnDrawPiece();
+      this.y++;
+      this.DrawPiece();
+      return false;
+    }
   }
   
   MoveLeft()
@@ -174,9 +199,8 @@ class Piece
 
   Rotate()
   {
-    if(this.locked)
-      return;
     let toBeTetrimino = new Piece(this.board, this.tetrimino, (this.type+1)%4);
+    toBeTetrimino.y = 0;
     if(toBeTetrimino.CollisionDetection(0,0))
     {
       return;
@@ -184,25 +208,6 @@ class Piece
     this.UnDrawPiece();
     this.type = (this.type+1)%4;
     this.DrawPiece();
-  }
-
-  
-  Drop()
-  {
-    let now = Date.now();
-    let delta = now - this.dropStart;
-    if(delta > 1000)
-    {
-      this.MoveDown();
-      this.dropStart = now;
-    }
-
-    if(this.y >= (this.board.rowSize - this.tetrimino[0][this.type].length))
-      return; 
-    if(stopAnimation == false)
-      requestAnimationFrame(this.Drop.bind(this)); //requestAnimationFrame(()=>this.loop());
-    else
-      return;
   }
 
   CollisionDetection(x,y)
@@ -215,15 +220,26 @@ class Piece
           continue;
         let newX = this.x + c + x;
         let newY = this.y + r + y;
-
-        if(newX < 0 || newX >= this.board.columnSize || newY >= this.board.rowSize)
+        if(newX < 0 || newY < 0)
+        {
           return true;
+        }
+
+        if( newX < this.board.columnSize && newY < this.board.rowSize && this.board.board[newY][newX] != "white")
+        {
+          return true;
+        }
+        
+        if( newX >= this.board.columnSize || newY >= this.board.rowSize)
+        {
+          return true;
+        }
 
         if(newY < 0)
+        {
           continue;
-
-        if(this.board.board[newY][newX] != "white")
-          return true;
+        }
+ 
       }
     }
     return false;
@@ -240,12 +256,20 @@ class Piece
       {
           if(this.tetrimino[0][this.type][r][c] == 1)
           {
-            this.board.DrawSqaure(this.x+c, this.y+r, color); //x is from left, means it's the column and y is from up means the row
+            let newX = this.x + c ;
+            let newY = this.y + r ;
+            this.board.board[newY][newX] = color;
+            this.board.DrawSqaure(newX, newY, color); //x is from left, means it's the column and y is from up means the row
           }
       }
     }
-    stopAnimation = true; 
   }
 
+}
+
+function RandomPiece()
+{
+  let r = Math.floor(Math.random() * AllPattern.length);
+  return AllPattern[r];
 }
 
