@@ -2,6 +2,41 @@ let stopAnimation = false;
 let score = 0;
 let GlobalPiece = null
 
+const TestPiece =
+[
+  [
+    [
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1]
+    ],
+    [
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1]
+    ],
+    [
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1]
+    ],
+    [
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1]
+    ]
+  ],
+  "black"
+]
+
 const PiecePatternI =
 [
   [
@@ -179,8 +214,9 @@ const PiecePatternO =
 
 const AllPattern =
 [
-  PiecePatternL,
+  TestPiece,
   PiecePatternI,
+  PiecePatternL,
   PiecePatternJ,
   PiecePatternO,
   PiecePatternS,
@@ -338,6 +374,9 @@ class Piece
 
   Lock()
   {
+    if(this.locked) // Prevent getting drawn again from other motion commands
+      return;
+
     this.locked = true;
     let color = this.tetrimino[1];
     //Give board piece Color
