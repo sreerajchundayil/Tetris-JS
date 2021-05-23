@@ -6,6 +6,7 @@ const COL = 15;
 const EMPTY = "WHITE"
 const SQSIZE = 40;
 
+
 function drawSqaure(x,y,color)
 {
   ctx.fillStyle = color;
@@ -39,7 +40,11 @@ function DrawGridOnBoard()
   }
 }
 
+
 CreateBoard();
 DrawGridOnBoard();
+let piece1 = new Piece(PiecePatternT);
+piece1.DrawPiece();
+
 
 
