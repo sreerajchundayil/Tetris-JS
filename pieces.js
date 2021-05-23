@@ -179,9 +179,9 @@ const PiecePatternO =
 
 const AllPattern =
 [
+  PiecePatternL,
   PiecePatternI,
   PiecePatternJ,
-  PiecePatternL,
   PiecePatternO,
   PiecePatternS,
   PiecePatternT
@@ -229,7 +229,6 @@ class Piece
   {
     if(stopAnimation)
       return;
-
     if(this.CollisionDetection(0,1))
     {
       //Check whether complete object can be presented
@@ -287,14 +286,18 @@ class Piece
   Rotate()
   {
     let toBeTetrimino = new Piece(this.board, this.tetrimino, (this.type+1)%4);
-    toBeTetrimino.y = 0;
+    toBeTetrimino.x = this.x;
+    toBeTetrimino.y = this.y;
     if(toBeTetrimino.CollisionDetection(0,0))
     {
       return;
     }
-    this.UnDrawPiece();
-    this.type = (this.type+1)%4;
-    this.DrawPiece();
+    else
+    {
+      this.UnDrawPiece();
+      this.type = (this.type+1)%4;
+      this.DrawPiece();
+    }
   }
 
   CollisionDetection(x,y)
@@ -312,12 +315,13 @@ class Piece
           return true;
         }
 
-        if( newX < this.board.columnSize && newY < this.board.rowSize && this.board.board[newY][newX] != "white")
+        if( (newX < this.board.columnSize) && (newY < this.board.rowSize) && (this.board.board[newY][newX] != "white"))
         {
           return true;
         }
-        
-        if( newX >= this.board.columnSize || newY >= this.board.rowSize)
+       
+        if( (newX >= this.board.columnSize) 
+          || (newY >= this.board.rowSize)) 
         {
           return true;
         }

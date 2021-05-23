@@ -65,7 +65,6 @@ function CONTROL(event)
   }
   else if(event.keyCode == 40)
   {
-    console.log("MoveDown");
     GlobalPiece.MoveDown();
   }
 }
