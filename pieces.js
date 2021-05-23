@@ -1,5 +1,6 @@
 let stopAnimation = false;
 let GlobalPiece = null
+
 const PiecePatternI =
 [
   [
@@ -33,6 +34,35 @@ const PiecePatternI =
 
 ]
 
+const PiecePatternJ =
+[
+  [
+    [
+      [0,0,1],
+      [0,0,1],
+      [0,1,1]
+    ],
+    [
+      [0,0,0],
+      [1,0,0],
+      [1,1,1]
+    ],
+    [
+      [1,1,0],
+      [1,0,0],
+      [1,0,0]
+    ],
+    [
+      [1,1,1],
+      [0,0,1],
+      [0,0,0]
+    ]
+  
+  ]
+  ,
+  "red"
+
+]
 const PiecePatternL =
 [
   [
@@ -92,10 +122,67 @@ const PiecePatternT =
   "green" 
 ]
 
+const PiecePatternS =
+[
+  [
+    [
+      [0,1,1],
+      [1,1,0],
+      [0,0,0]
+    ],
+    [
+      [0,1,0],
+      [0,1,1],
+      [0,0,1]
+    ],
+    [
+      [0,0,0],
+      [0,1,1],
+      [1,1,0]
+    ],
+    [
+      [1,0,0],
+      [1,1,0],
+      [0,1,0]
+    ]
+  
+  ]
+  ,
+  "magenta" 
+]
+
+
+const PiecePatternO =
+[
+  [
+    [
+      [1,1],
+      [1,1]
+    ],
+    [
+      [1,1],
+      [1,1]
+    ],
+    [
+      [1,1],
+      [1,1]
+    ],
+    [
+      [1,1],
+      [1,1]
+    ]
+  ]
+  ,
+  "yellow" 
+]
+
 const AllPattern =
 [
-  PiecePatternL,
   PiecePatternI,
+  PiecePatternJ,
+  PiecePatternL,
+  PiecePatternO,
+  PiecePatternS,
   PiecePatternT
 ]
 
@@ -142,14 +229,10 @@ class Piece
     if(stopAnimation)
       return;
 
-    console.log(stopAnimation);
-
     if(this.CollisionDetection(0,1))
     {
       //Check whether complete object can be presented
       let objectSize = this.tetrimino[0][this.type][0].length;
-      console.log(objectSize);
-
       for(let column = 0; column < objectSize; column++)
       {
         if(this.board.board[column][objectSize-1] != "white")
@@ -263,6 +346,27 @@ class Piece
           }
       }
     }
+
+    //Remove full rows
+    for(let r = 0; r < this.board.rowSize; r++) 
+    {
+      let isRowFull = true;
+      for(let c = 0; c < this.board.columnSize; c++)
+        isRowFull = isRowFull && (this.board.board[r][c] != "white"); 
+
+      if(isRowFull)
+      {
+        for( let row = r; row > 1; row --)
+        {
+          for( let c = 0; c < this.board.columnSize; c++)
+            this.board.board[row][c] = this.board.board[row-1][c] 
+        }
+        for(let c = 0; c <  this.board.columnSize; c++)
+          this.board.board[0][c] = "white";
+      }
+    }
+
+    this.board.DrawGridOnBoard();
   }
 
 }

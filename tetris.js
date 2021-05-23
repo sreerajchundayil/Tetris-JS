@@ -6,7 +6,12 @@ function Drop()
   if(delta > 500)
   {
     if(GlobalPiece.MoveDown())
-      GlobalPiece = new Piece(board, RandomPiece());
+    {
+      GlobalPiece = GlobalNextPiece;
+      GlobalNextPiece = new Piece(board, RandomPiece());
+      boardMini.DrawGridOnBoard();
+      boardMini.DrawPiece(GlobalNextPiece);
+    }
 
     GlobalPiece.dropStart = now;
   }
@@ -22,7 +27,16 @@ const board  = new Board(800,600,"white",40)
 
 board.DrawGridOnBoard();
 
+
 GlobalPiece = new Piece(board, RandomPiece());
+GlobalNextPiece = new Piece(board, RandomPiece());
+
+const cvsMini = document.getElementById("tetrinom");
+const ctxMini = cvsMini.getContext("2d");
+const boardMini  = new Stats(160,160,"white",40)
+boardMini.DrawGridOnBoard();
+boardMini.DrawPiece(GlobalNextPiece);
+
 
 document.addEventListener("keydown",CONTROL);
 

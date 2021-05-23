@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+<link rel="stylesheet" href="style.css">
+</head>
   <body>
-    <canvas id="tetris" width="600" height="800" style="border:1px solid #000000"></canvas>
+    <div class="grid-container">
+      <div class="grid-child" >
+        <canvas id="tetris" width="600" height="800" style="border:1px solid #000000"></canvas>
+      </div>
+      <div class="grid-child" >
+        <canvas id="tetrinom" width="160" height="160" style="border:1px solid #000000"></canvas>
+      </div>
+    </div>
     <script  src="board.js"></script>
     <script  src="pieces.js"></script>
     <script  src="tetris.js"></script>
