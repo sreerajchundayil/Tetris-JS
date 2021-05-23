@@ -73,19 +73,5 @@ class Piece
     this.y = 0;
     console.log("Piece creation done");
   }
-
-  DrawPiece()
-  {
-    let color = this.tetrimino[1] ;
-    //console.log(this.tetrimino[0][this.type]);
-    for(r = 0; r < this.tetrimino[0][this.type].length; r++)
-    {
-      for(c = 0; c < this.tetrimino[0][this.type].length; c++)
-      {
-          if(this.tetrimino[0][this.type][r][c] == 1)
-            drawSqaure(this.x+c, this.y+r, color); //x is from left, means it's the column and y is from up means the row
-      }
-    }
-  }
 }
 
