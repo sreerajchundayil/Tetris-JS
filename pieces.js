@@ -1,4 +1,5 @@
 let stopAnimation = false;
+let score = 0;
 let GlobalPiece = null
 
 const PiecePatternI =
@@ -238,6 +239,9 @@ class Piece
         if(this.board.board[column][objectSize-1] != "white")
         {
           stopAnimation = true;
+          scoreBoardCtx.font = "30px Arial";
+          scoreBoardCtx.clearRect(0,0,160,160);
+          scoreBoardCtx.fillText("Game Over",80,100);
           return;
         }
       }
@@ -363,10 +367,13 @@ class Piece
         }
         for(let c = 0; c <  this.board.columnSize; c++)
           this.board.board[0][c] = "white";
+        score += 10;
       }
     }
 
     this.board.DrawGridOnBoard();
+    scoreBoardCtx.clearRect(0,0,160,160);
+    scoreBoardCtx.fillText(score,80,100);
   }
 
 }

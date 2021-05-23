@@ -38,6 +38,13 @@ boardMini.DrawGridOnBoard();
 boardMini.DrawPiece(GlobalNextPiece);
 
 
+let scoreBoard = document.getElementById("scoreBoard");
+let scoreBoardCtx = scoreBoard.getContext("2d");
+scoreBoardCtx.font = "50px Arial";
+scoreBoardCtx.textAlign = "center";
+scoreBoardCtx.fillText("0",80,100);
+
+
 document.addEventListener("keydown",CONTROL);
 
 function CONTROL(event)
