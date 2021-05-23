@@ -2,8 +2,8 @@ class Board
 {
   constructor(rowSize,columnSize,emptyColor,sqSize)
   {
-    this.rowSize = rowSize;
-    this.columnSize = columnSize;
+    this.rowSize = rowSize/sqSize;
+    this.columnSize = columnSize/sqSize;
     this.emptyColor = emptyColor;
     this.sqSize = sqSize;
     this.board = [];

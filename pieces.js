@@ -216,7 +216,7 @@ class Piece
         let newX = this.x + c + x;
         let newY = this.y + r + y;
 
-        if(newX < 0 || newX >= this.board.colSize || newY >= this.board.rowSize)
+        if(newX < 0 || newX >= this.board.columnSize || newY >= this.board.rowSize)
           return true;
 
         if(newY < 0)
