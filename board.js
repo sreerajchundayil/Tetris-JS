@@ -29,19 +29,6 @@ class Board
     }
   }
 
-  DrawPiece(piece)
-  {
-    let color = piece.tetrimino[1] ;
-    //console.log(piece.tetrimino[0][piece.type]);
-    for(let r = 0; r < piece.tetrimino[0][piece.type].length; r++)
-    {
-      for(let c = 0; c < piece.tetrimino[0][piece.type].length; c++)
-      {
-          if(piece.tetrimino[0][piece.type][r][c] == 1)
-            this.DrawSqaure(piece.x+c, piece.y+r, color); //x is from left, means it's the column and y is from up means the row
-      }
-    }
-  }
 
   DrawSqaure(x,y,color)
   {
