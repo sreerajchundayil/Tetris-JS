@@ -214,7 +214,6 @@ const PiecePatternO =
 
 const AllPattern =
 [
-  TestPiece,
   PiecePatternI,
   PiecePatternL,
   PiecePatternJ,
